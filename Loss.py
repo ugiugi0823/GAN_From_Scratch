@@ -1,10 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 # Loss.py
+import torch
 from Utils import get_noise
 
 
