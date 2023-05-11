@@ -93,15 +93,26 @@ def train():
                 print(f"Step {cur_step}: Generator loss: {mean_generator_loss}, discriminator loss: {mean_discriminator_loss}")
                 fake_noise = get_noise(cur_batch_size, z_dim, device=device)
                 fake = gen(fake_noise)
+
+                
+                print('fake',type(fake))
+                print('fake',fake.shape)
+                print('fake',fake.dtype)
+                print(fake)
+
+                print('real',type(real))
+                print('real',real.shape)
+                print('real',real.dtype)
+                print(real)
     
                 # show_tensor_images
-                show_tensor_images(fake)
-                show_tensor_images(real)
+                # show_tensor_images(fake)
+                # show_tensor_images(real)
     
                 # save_tensor_images
                 
-                save_tensor_images(fake, f'./results/fake/fake_{cur_step}.png')
-                save_tensor_images(real, f'./results/real/real_{cur_step}.png')
+                save_tensor_images(fake, f'./results/fake/{cur_step}_fake.png')
+                save_tensor_images(real, f'./results/real/{cur_step}_real.png')
                 
                 
     
