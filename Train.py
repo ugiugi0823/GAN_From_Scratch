@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
+# Train.py
 import os
 import torch
 import time 
@@ -20,34 +15,36 @@ from Model import *
 from Loss import *
 from Block import *
 
-# Load MNIST dataset as tensors
-dataloader = DataLoader(
+
+
+def train():
+    # Set your parameters
+    criterion = nn.BCEWithLogitsLoss()
+    n_epochs = 200
+    z_dim = 64
+    display_step = 500
+    batch_size = 128
+    lr = 0.00001
+    device = 'cuda'
+
+    # Load MNIST dataset as tensors
+    dataloader = DataLoader(
     MNIST('.', download=True, transform=transforms.ToTensor()),
     batch_size=batch_size,
     shuffle=True)
 
 
+    cur_step = 0
+    mean_generator_loss = 0
+    mean_discriminator_loss = 0
+    test_generator = True # Whether the generator should be tested
+    gen_loss = False
 
+    gen = Generator(z_dim).to(device)
+    gen_opt = torch.optim.Adam(gen.parameters(), lr=lr)
+    disc = Discriminator().to(device) 
+    disc_opt = torch.optim.Adam(disc.parameters(), lr=lr)
 
-
-
-cur_step = 0
-mean_generator_loss = 0
-mean_discriminator_loss = 0
-test_generator = True # Whether the generator should be tested
-gen_loss = False
-
-
-gen = Generator(z_dim).to(device)
-gen_opt = torch.optim.Adam(gen.parameters(), lr=lr)
-disc = Discriminator().to(device) 
-disc_opt = torch.optim.Adam(disc.parameters(), lr=lr)
-
-
-
-setup_logging()
-
-def train():
     for epoch in range(n_epochs):
       
         # Dataloader returns the batches
@@ -103,8 +100,8 @@ def train():
     
                 # save_tensor_images
                 
-                save_tensor_images(fake, f'/content/results/fake/fake_{cur_step}.png')
-                save_tensor_images(real, f'/content/results/real/real_{cur_step}.png')
+                save_tensor_images(fake, f'./results/fake/fake_{cur_step}.png')
+                save_tensor_images(real, f'./results/real/real_{cur_step}.png')
                 
                 
     
@@ -116,6 +113,7 @@ def train():
             
             
 if __name__ == '__main__':
+    setup_logging()
     end = time.time() 
     
     train()
