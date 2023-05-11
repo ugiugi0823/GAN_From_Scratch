@@ -47,7 +47,7 @@ disc_opt = torch.optim.Adam(disc.parameters(), lr=lr)
 
 setup_logging()
 
-def train()
+def train():
     for epoch in range(n_epochs):
       
         # Dataloader returns the batches
